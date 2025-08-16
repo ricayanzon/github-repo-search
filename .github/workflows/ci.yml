@@ -1,0 +1,41 @@
+name: Lint, Format, Type & Build Checks
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  lint-format-type-build-checks:
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5.0.0
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4.1.0
+        with:
+          version: 10.14.0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4.4.0
+        with:
+          node-version: 24.6.0
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint checking
+        run: pnpm lint
+
+      - name: Format checking
+        run: pnpm format:check
+
+      - name: Type checking
+        run: pnpm typecheck
+
+      - name: Build checking
+        run: pnpm run build
