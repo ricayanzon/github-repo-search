@@ -1,6 +1,7 @@
+'use client';
+
 import client from '@/graphql/apollo-client';
 import { ApolloProvider } from '@apollo/client';
-import type { Metadata } from 'next';
 import { Roboto } from 'next/font/google';
 import './globals.css';
 
@@ -9,11 +10,6 @@ const roboto = Roboto({
   variable: '--font-roboto',
   subsets: ['latin'],
 });
-
-export const metadata: Metadata = {
-  title: 'MVST Challenge',
-  description: 'GitHub Repositories With Search Functionality',
-};
 
 export default function RootLayout({
   children,
