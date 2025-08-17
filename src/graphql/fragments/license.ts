@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 
 export const LICENSE_FRAGMENT = gql`
-  fragment License on License {
+  fragment LicenseFragment on License {
     key
     name
     url

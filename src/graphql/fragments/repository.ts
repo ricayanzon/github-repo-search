@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 
 export const REPOSITORY_FRAGMENT = gql`
-  fragment Repository on Repository {
+  fragment RepositoryFragment on Repository {
     createdAt
     description
     forkCount

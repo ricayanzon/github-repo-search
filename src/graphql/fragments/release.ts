@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 
 export const RELEASE_FRAGMENT = gql`
-  fragment Release on Release {
+  fragment ReleaseFragment on Release {
     createdAt
     name
     tagName

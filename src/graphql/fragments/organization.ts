@@ -1,12 +1,12 @@
 import { gql } from '@apollo/client';
 
 export const ORGANIZATION_FRAGMENT = gql`
-  fragment Organization on Organization {
+  fragment OrganizationFragment on Organization {
     __typename
     avatarUrl
     createdAt
     description
-    email
+    organizationEmail: email
     location
     login
     name

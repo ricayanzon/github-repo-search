@@ -1,4 +1,11 @@
 import { gql } from '@apollo/client';
+import { REPOSITORY_FRAGMENT } from './fragments/repository';
+import { OWNER_FRAGMENT } from './fragments/owner';
+import { LANGUAGE_FRAGMENT } from './fragments/language';
+import { LICENSE_FRAGMENT } from './fragments/license';
+import { RELEASE_FRAGMENT } from './fragments/release';
+import { ORGANIZATION_FRAGMENT } from './fragments/organization';
+import { USER_FRAGMENT } from './fragments/user';
 
 export const GET_REPOSITORIES = gql`
   query GetUserRepositories($username: String!, $numberRepositories: Int!) {
@@ -7,25 +14,25 @@ export const GET_REPOSITORIES = gql`
       edges {
         node {
           ... on Repository {
-            ...Repository
+            ...RepositoryFragment
             owner {
-              ...Owner
+              ...OwnerFragment
             }
             primaryLanguage {
-              ...Language
+              ...LanguageFragment
             }
             languages(first: 10) {
               edges {
                 node {
-                  ...Language
+                  ...LanguageFragment
                 }
               }
             }
             licenseInfo {
-              ...License
+              ...LicenseFragment
             }
             latestRelease {
-              ...Release
+              ...ReleaseFragment
             }
           }
         }
@@ -36,4 +43,11 @@ export const GET_REPOSITORIES = gql`
       }
     }
   }
+  ${REPOSITORY_FRAGMENT}
+  ${OWNER_FRAGMENT}
+  ${LANGUAGE_FRAGMENT}
+  ${LICENSE_FRAGMENT}
+  ${RELEASE_FRAGMENT}
+  ${ORGANIZATION_FRAGMENT}
+  ${USER_FRAGMENT}
 `;

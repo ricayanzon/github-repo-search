@@ -1,11 +1,20 @@
-import { ApolloClient, InMemoryCache } from '@apollo/client';
+import { ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client';
 import { fragmentRegistry } from './fragment-registry';
 
+const httpLink = createHttpLink({
+  uri: '/api',
+});
+
 const client = new ApolloClient({
-  uri: 'https://api.github.com/graphql',
+  link: httpLink,
   cache: new InMemoryCache({
     fragments: fragmentRegistry,
   }),
+  defaultOptions: {
+    watchQuery: {
+      fetchPolicy: 'cache-and-network',
+    },
+  },
 });
 
 export default client;

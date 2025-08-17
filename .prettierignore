@@ -6,3 +6,10 @@ public
 pnpm-lock.yaml
 coverage
 build
+codegen
+
+.DS_Store
+Thumbs.db
+
+.vscode
+.idea

@@ -1,16 +1,16 @@
 import { gql } from '@apollo/client';
 
 export const OWNER_FRAGMENT = gql`
-  fragment Owner on RepositoryOwner {
+  fragment OwnerFragment on RepositoryOwner {
     __typename
     avatarUrl
     login
     url
     ... on Organization {
-      ...Organization
+      ...OrganizationFragment
     }
     ... on User {
-      ...User
+      ...UserFragment
     }
   }
 `;
