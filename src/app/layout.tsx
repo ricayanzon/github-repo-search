@@ -2,6 +2,7 @@
 
 import client from '@/graphql/apollo-client';
 import { ApolloProvider } from '@apollo/client';
+import { ThemeProvider as NextThemesProvider } from 'next-themes';
 import { Roboto } from 'next/font/google';
 import './globals.css';
 
@@ -19,7 +20,11 @@ export default function RootLayout({
   return (
     <ApolloProvider client={client}>
       <html lang="en">
-        <body className={`${roboto.variable} antialiased`}>{children}</body>
+        <body className={`${roboto.variable} antialiased`}>
+          <NextThemesProvider attribute="class" defaultTheme="dark" enableSystem>
+            {children}
+          </NextThemesProvider>
+        </body>
       </html>
     </ApolloProvider>
   );
