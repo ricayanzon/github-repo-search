@@ -7,8 +7,8 @@ import { RELEASE_FRAGMENT } from '../fragments/release';
 import { REPOSITORY_FRAGMENT } from '../fragments/repository';
 import { USER_FRAGMENT } from '../fragments/user';
 
-export const GET_REPOSITORIES_BY_QUERY = gql`
-  query GetRepositoriesByQuery($query: String!, $numberRepositories: Int!) {
+export const REPOSITORIES_SEARCH = gql`
+  query RepositoriesSearch($query: String!, $numberRepositories: Int!) {
     search(query: $query, type: REPOSITORY, first: $numberRepositories) {
       repositoryCount
       edges {

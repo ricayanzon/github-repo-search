@@ -7,8 +7,8 @@ import { RELEASE_FRAGMENT } from '../fragments/release';
 import { REPOSITORY_FRAGMENT } from '../fragments/repository';
 import { USER_FRAGMENT } from '../fragments/user';
 
-export const GET_REPOSITORIES_BY_IDS = gql`
-  query GetRepositoriesByIds($ids: [ID!]!) {
+export const REPOSITORIES_BY_IDS = gql`
+  query RepositoriesByIds($ids: [ID!]!) {
     nodes(ids: $ids) {
       ... on Repository {
         ...RepositoryFragment
