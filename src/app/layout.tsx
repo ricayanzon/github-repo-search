@@ -29,7 +29,7 @@ export default function RootLayout({
         <body className={`${roboto.variable} antialiased`}>
           <NextThemesProvider attribute="class" defaultTheme="dark" enableSystem>
             {showHeader && <Header />}
-            {children}
+            <main>{children}</main>
             <Toaster />
           </NextThemesProvider>
         </body>
