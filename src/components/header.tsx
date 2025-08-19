@@ -27,13 +27,13 @@ export default function Header() {
   ];
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container mx-auto flex h-14 items-center px-4">
-        <Link key="/" href="/" className="mr-6 flex items-center space-x-2">
+    <header className="sticky z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="flex items-center px-6 py-3">
+        <Link key="/" href="/" className="mr-6 flex items-center gap-3">
           <SiGithub className="h-8 w-8" />
-          <span className="hidden font-bold sm:inline-block">RepoSearch</span>
+          <span className="font-bold sm:inline-block">RepoSearch</span>
         </Link>
-        <nav className="flex items-center space-x-6 text-sm font-medium flex-1">
+        <nav className="flex items-center gap-6 text-sm font-medium flex-1">
           {links.map((link) => (
             <Link
               key={link.route}
