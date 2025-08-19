@@ -1,9 +1,11 @@
 'use client';
 
+import Header from '@/components/header';
 import client from '@/graphql/apollo-client';
 import { ApolloProvider } from '@apollo/client';
 import { ThemeProvider as NextThemesProvider } from 'next-themes';
 import { Roboto } from 'next/font/google';
+import { usePathname } from 'next/navigation';
 import './globals.css';
 
 const roboto = Roboto({
@@ -17,11 +19,15 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const pathname = usePathname();
+  const showHeader = pathname !== '/';
+
   return (
     <ApolloProvider client={client}>
       <html lang="en">
         <body className={`${roboto.variable} antialiased`}>
           <NextThemesProvider attribute="class" defaultTheme="dark" enableSystem>
+            {showHeader && <Header />}
             {children}
           </NextThemesProvider>
         </body>
