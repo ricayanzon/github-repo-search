@@ -1,6 +1,7 @@
 'use client';
 
 import Header from '@/components/header';
+import { Toaster } from '@/components/ui/sonner';
 import client from '@/graphql/apollo-client';
 import { ApolloProvider } from '@apollo/client';
 import { ThemeProvider as NextThemesProvider } from 'next-themes';
@@ -29,6 +30,7 @@ export default function RootLayout({
           <NextThemesProvider attribute="class" defaultTheme="dark" enableSystem>
             {showHeader && <Header />}
             {children}
+            <Toaster />
           </NextThemesProvider>
         </body>
       </html>
