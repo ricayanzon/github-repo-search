@@ -1,14 +1,14 @@
 import { gql } from '@apollo/client';
-import { LANGUAGE_FRAGMENT } from './fragments/language';
-import { LICENSE_FRAGMENT } from './fragments/license';
-import { ORGANIZATION_FRAGMENT } from './fragments/organization';
-import { OWNER_FRAGMENT } from './fragments/owner';
-import { RELEASE_FRAGMENT } from './fragments/release';
-import { REPOSITORY_FRAGMENT } from './fragments/repository';
-import { USER_FRAGMENT } from './fragments/user';
+import { LANGUAGE_FRAGMENT } from '../fragments/language';
+import { LICENSE_FRAGMENT } from '../fragments/license';
+import { ORGANIZATION_FRAGMENT } from '../fragments/organization';
+import { OWNER_FRAGMENT } from '../fragments/owner';
+import { RELEASE_FRAGMENT } from '../fragments/release';
+import { REPOSITORY_FRAGMENT } from '../fragments/repository';
+import { USER_FRAGMENT } from '../fragments/user';
 
-export const GET_REPOSITORIES = gql`
-  query GetUserRepositories($query: String!, $numberRepositories: Int!) {
+export const GET_REPOSITORIES_BY_QUERY = gql`
+  query GetRepositoriesByQuery($query: String!, $numberRepositories: Int!) {
     search(query: $query, type: REPOSITORY, first: $numberRepositories) {
       repositoryCount
       edges {

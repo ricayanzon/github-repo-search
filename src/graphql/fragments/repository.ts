@@ -5,6 +5,7 @@ export const REPOSITORY_FRAGMENT = gql`
     createdAt
     description
     forkCount
+    id
     isArchived
     isFork
     isPrivate
