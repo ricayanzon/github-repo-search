@@ -32415,7 +32415,7 @@ export type RepositoryFragmentFragment = { __typename?: 'Repository', createdAt:
 export type UserFragmentFragment = { __typename: 'User', avatarUrl: any, bio?: string | null, company?: string | null, location?: string | null, login: string, name?: string | null, url: any, userEmail: string };
 
 export type GetUserRepositoriesQueryVariables = Exact<{
-  username: Scalars['String']['input'];
+  query: Scalars['String']['input'];
   numberRepositories: Scalars['Int']['input'];
 }>;
 

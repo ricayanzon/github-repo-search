@@ -32418,7 +32418,7 @@ export type RepositoryFragmentFragment = { __typename?: 'Repository', createdAt:
 export type UserFragmentFragment = { __typename: 'User', avatarUrl: any, bio?: string | null, company?: string | null, location?: string | null, login: string, name?: string | null, url: any, userEmail: string };
 
 export type GetUserRepositoriesQueryVariables = Exact<{
-  username: Scalars['String']['input'];
+  query: Scalars['String']['input'];
   numberRepositories: Scalars['Int']['input'];
 }>;
 
@@ -32505,8 +32505,8 @@ export const RepositoryFragmentFragmentVariables = gql`
 }
     `;
 export const GetUserRepositoriesDocument = gql`
-    query GetUserRepositories($username: String!, $numberRepositories: Int!) {
-  search(query: $username, type: REPOSITORY, first: $numberRepositories) {
+    query GetUserRepositories($query: String!, $numberRepositories: Int!) {
+  search(query: $query, type: REPOSITORY, first: $numberRepositories) {
     repositoryCount
     edges {
       node {
@@ -32558,7 +32558,7 @@ ${ReleaseFragmentFragmentVariables}`;
  * @example
  * const { data, loading, error } = useGetUserRepositoriesQuery({
  *   variables: {
- *      username: // value for 'username'
+ *      query: // value for 'query'
  *      numberRepositories: // value for 'numberRepositories'
  *   },
  * });
