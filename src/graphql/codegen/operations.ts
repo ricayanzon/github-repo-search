@@ -32414,6 +32414,14 @@ export type RepositoryFragmentFragment = { __typename?: 'Repository', createdAt:
 
 export type UserFragmentFragment = { __typename: 'User', avatarUrl: any, bio?: string | null, company?: string | null, location?: string | null, login: string, name?: string | null, url: any, userEmail: string };
 
+export type LanguagesByOwnerQueryVariables = Exact<{
+  owner: Scalars['String']['input'];
+  cursor?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type LanguagesByOwnerQueryResult = { __typename?: 'Query', repositoryOwner?: { __typename?: 'Organization', repositories: { __typename?: 'RepositoryConnection', pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, endCursor?: string | null }, nodes?: Array<{ __typename?: 'Repository', primaryLanguage?: { __typename?: 'Language', name: string } | null } | null> | null } } | { __typename?: 'User', repositories: { __typename?: 'RepositoryConnection', pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, endCursor?: string | null }, nodes?: Array<{ __typename?: 'Repository', primaryLanguage?: { __typename?: 'Language', name: string } | null } | null> | null } } | null };
+
 export type RepositoriesByIdsQueryVariables = Exact<{
   ids: Array<Scalars['ID']['input']> | Scalars['ID']['input'];
 }>;

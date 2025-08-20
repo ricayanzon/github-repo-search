@@ -32417,6 +32417,14 @@ export type RepositoryFragmentFragment = { __typename?: 'Repository', createdAt:
 
 export type UserFragmentFragment = { __typename: 'User', avatarUrl: any, bio?: string | null, company?: string | null, location?: string | null, login: string, name?: string | null, url: any, userEmail: string };
 
+export type LanguagesByOwnerQueryVariables = Exact<{
+  owner: Scalars['String']['input'];
+  cursor?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type LanguagesByOwnerQueryResult = { __typename?: 'Query', repositoryOwner?: { __typename?: 'Organization', repositories: { __typename?: 'RepositoryConnection', pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, endCursor?: string | null }, nodes?: Array<{ __typename?: 'Repository', primaryLanguage?: { __typename?: 'Language', name: string } | null } | null> | null } } | { __typename?: 'User', repositories: { __typename?: 'RepositoryConnection', pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, endCursor?: string | null }, nodes?: Array<{ __typename?: 'Repository', primaryLanguage?: { __typename?: 'Language', name: string } | null } | null> | null } } | null };
+
 export type RepositoriesByIdsQueryVariables = Exact<{
   ids: Array<Scalars['ID']['input']> | Scalars['ID']['input'];
 }>;
@@ -32512,6 +32520,57 @@ export const RepositoryFragmentFragmentVariables = gql`
   visibility
 }
     `;
+export const LanguagesByOwnerDocument = gql`
+    query LanguagesByOwner($owner: String!, $cursor: String) {
+  repositoryOwner(login: $owner) {
+    repositories(first: 100, after: $cursor) {
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+      nodes {
+        primaryLanguage {
+          name
+        }
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useLanguagesByOwnerQuery__
+ *
+ * To run a query within a React component, call `useLanguagesByOwnerQuery` and pass it any options that fit your needs.
+ * When your component renders, `useLanguagesByOwnerQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useLanguagesByOwnerQuery({
+ *   variables: {
+ *      owner: // value for 'owner'
+ *      cursor: // value for 'cursor'
+ *   },
+ * });
+ */
+export function useLanguagesByOwnerQuery(baseOptions: Apollo.QueryHookOptions<LanguagesByOwnerQueryResult, LanguagesByOwnerQueryVariables> & ({ variables: LanguagesByOwnerQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<LanguagesByOwnerQueryResult, LanguagesByOwnerQueryVariables>(LanguagesByOwnerDocument, options);
+      }
+export function useLanguagesByOwnerLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<LanguagesByOwnerQueryResult, LanguagesByOwnerQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<LanguagesByOwnerQueryResult, LanguagesByOwnerQueryVariables>(LanguagesByOwnerDocument, options);
+        }
+export function useLanguagesByOwnerSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<LanguagesByOwnerQueryResult, LanguagesByOwnerQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<LanguagesByOwnerQueryResult, LanguagesByOwnerQueryVariables>(LanguagesByOwnerDocument, options);
+        }
+export type LanguagesByOwnerQueryHookResult = ReturnType<typeof useLanguagesByOwnerQuery>;
+export type LanguagesByOwnerLazyQueryHookResult = ReturnType<typeof useLanguagesByOwnerLazyQuery>;
+export type LanguagesByOwnerSuspenseQueryHookResult = ReturnType<typeof useLanguagesByOwnerSuspenseQuery>;
+export type LanguagesByOwnerQueryResult = Apollo.QueryResult<LanguagesByOwnerQueryResult, LanguagesByOwnerQueryVariables>;
 export const RepositoriesByIdsDocument = gql`
     query RepositoriesByIds($ids: [ID!]!) {
   nodes(ids: $ids) {
