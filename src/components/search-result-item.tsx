@@ -9,6 +9,7 @@ import { addFavoriteId, isFavoriteById, removeFavoriteId } from '@/lib/local-sto
 import { formatDateRelative, formatNumber } from '@/lib/utils';
 import { Calendar, Clock, GitFork, Heart, Star } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { Button } from './ui/button';
 
 type SearchResultItemProps = {
   repository: RepositoryItemFragment;
@@ -42,20 +43,24 @@ export default function SearchResultItem({ repository }: SearchResultItemProps) 
     <Card className="hover:shadow-md transition-shadow duration-200">
       <CardHeader>
         <CardTitle className="flex items-center justify-between">
-          <button
+          <Button
             onClick={openRepositoryUrl}
-            className="text-primary hover:text-primary/80 cursor-pointer"
+            className="text-primary text-xl hover:text-primary/80 cursor-pointer px-0"
+            variant="link"
+            size="lg"
           >
             {repository.name}
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={toggleFavorite}
-            className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+            className="p-2 hover:bg-gray-100 rounded-full transition-colors cursor-pointer"
+            variant="ghost"
+            size="icon"
           >
             <Heart
               className={`w-5 h-5 cursor-pointer ${isFavorite ? 'fill-red-500 text-red-500' : 'text-gray-400 hover:text-red-500'}`}
             />
-          </button>
+          </Button>
         </CardTitle>
         <CardDescription className="line-clamp-2">
           {repository.description ?? 'No description available'}
