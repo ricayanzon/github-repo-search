@@ -3,10 +3,12 @@
 import Filters from '@/components/filters';
 import SearchBar from '@/components/search-bar';
 import SearchResults from '@/components/search-results';
+import { Button } from '@/components/ui/button';
 import { FragmentType, useFragment } from '@/graphql/codegen';
 import { RepositoryFragment } from '@/graphql/fragments/repository';
 import { allRepositoriesSearchQueryDocument } from '@/graphql/queries/all-repositories-search';
 import { useQuery } from '@apollo/client';
+import { ArrowDown } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
@@ -17,11 +19,13 @@ export default function SearchPage() {
   const username = searchParams.get('username') || '';
   const language = searchParams.get('language') || '';
   const repositoryName = searchParams.get('repositoryName') || '';
+  const pageSize = 20;
 
-  const { data, loading, error } = useQuery(allRepositoriesSearchQueryDocument, {
+  const { data, loading, error, fetchMore } = useQuery(allRepositoriesSearchQueryDocument, {
     variables: {
       query: `user:${username} language:${language} repo:${username}/${repositoryName}`,
-      numberRepositories: 20,
+      first: pageSize,
+      after: null,
     },
     skip: username.trim() === '',
   });
@@ -40,6 +44,19 @@ export default function SearchPage() {
     repository.name.includes(repositoryName),
   );
   const totalCount = data?.search.repositoryCount ?? 0;
+  const pageInfo = data?.search.pageInfo;
+  const hasNextPage = pageInfo?.hasNextPage ?? false;
+  const endCursor = pageInfo?.endCursor ?? null;
+
+  const handleLoadMore = async () => {
+    if (!hasNextPage || loading) return;
+
+    await fetchMore({
+      variables: {
+        after: endCursor,
+      },
+    });
+  };
 
   /**
    * Updates the search params in the URL and triggers a new search.
@@ -85,6 +102,19 @@ export default function SearchPage() {
         />
       </div>
       <SearchResults repositories={filteredRepositories} isLoading={loading} />
+      {hasNextPage && (
+        <div className="flex justify-center my-6">
+          <Button
+            className="p-2 hover:bg-gray-100 rounded-full cursor-pointer"
+            variant="ghost"
+            size="icon"
+            disabled={loading}
+            onClick={handleLoadMore}
+          >
+            <ArrowDown className="w-4 h-4 disabled:opacity-50" />
+          </Button>
+        </div>
+      )}
     </div>
   );
 }

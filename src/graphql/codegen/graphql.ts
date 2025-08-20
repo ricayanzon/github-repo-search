@@ -32423,7 +32423,8 @@ export type AllLanguagesByOwnerQueryQuery = {
 
 export type AllRepositoriesSearchQueryQueryVariables = Exact<{
   query: Scalars['String']['input'];
-  numberRepositories: Scalars['Int']['input'];
+  first: Scalars['Int']['input'];
+  after?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 export type AllRepositoriesSearchQueryQuery = {
@@ -33178,11 +33179,16 @@ export const AllRepositoriesSearchQueryDocument = {
         },
         {
           kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'numberRepositories' } },
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'first' } },
           type: {
             kind: 'NonNullType',
             type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
           },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'after' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
         },
       ],
       selectionSet: {
@@ -33205,7 +33211,12 @@ export const AllRepositoriesSearchQueryDocument = {
               {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'first' },
-                value: { kind: 'Variable', name: { kind: 'Name', value: 'numberRepositories' } },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'first' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'after' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'after' } },
               },
             ],
             selectionSet: {
