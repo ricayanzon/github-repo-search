@@ -27,8 +27,8 @@ export default function SearchBar({
   const inputRef = useRef<HTMLInputElement>(null);
 
   const onKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    const trimmedInputValue = inputValue.trim();
-    if (e.key === 'Enter' && trimmedInputValue !== '') {
+    if (e.key === 'Enter') {
+      const trimmedInputValue = inputValue.trim();
       onEnter(trimmedInputValue);
     }
   };

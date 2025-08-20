@@ -6,8 +6,8 @@ import { useRouter } from 'next/navigation';
 export default function Home() {
   const router = useRouter();
 
-  const handleSearch = async (query: string) => {
-    const params = new URLSearchParams({ query });
+  const handleSearch = async (username: string) => {
+    const params = new URLSearchParams({ username });
     router.push(`/search?${params.toString()}`);
   };
 
@@ -23,7 +23,12 @@ export default function Home() {
           </p>
         </div>
         <div className="w-full max-w-lg">
-          <SearchBar size="lg" isLoading={false} onEnter={handleSearch} />
+          <SearchBar
+            placeholder="Search for a GitHub user"
+            size="lg"
+            isLoading={false}
+            onEnter={handleSearch}
+          />
           <div className="mt-3 text-xs text-muted-foreground/60">
             Press <kbd className="px-1.5 py-0.5 text-xs bg-muted rounded font-mono">Ctrl</kbd>
             {' + '}
