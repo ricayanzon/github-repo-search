@@ -25,7 +25,7 @@ export default function Home() {
             placeholder="Search for a GitHub user"
             size="lg"
             isLoading={false}
-            onEnter={handleSearch}
+            onUpdate={handleSearch}
           />
           <div className="mt-3 text-xs text-muted-foreground/60">
             Press <kbd className="px-1.5 py-0.5 text-xs bg-muted rounded font-mono">Ctrl</kbd>

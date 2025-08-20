@@ -8,6 +8,7 @@ import {
 import { useFragment } from '@/graphql/codegen';
 import { LanguageFragment } from '@/graphql/fragments/language';
 import { allLanguagesByOwnerQueryDocument } from '@/graphql/queries/all-languages-by-owner';
+import { useDebounce } from '@/hooks/use-debounce';
 import { useQuery } from '@apollo/client';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
@@ -34,6 +35,11 @@ export default function Filters({
   });
 
   /**
+   * Reverses back the language name for correct displaying in the select input
+   */
+  const selectedLanguage = language.replace('-', ' ');
+
+  /**
    * Extract primary languages from repositories.
    * Then remove null/undefined, deduplicate, and sort alphabetically
    */
@@ -55,6 +61,10 @@ export default function Filters({
     handleFilterUpdate('language', fixedValue);
   };
 
+  const debouncedRepositoryNameFilterUpdate = useDebounce((value: unknown) => {
+    handleFilterUpdate('repositoryName', value as string);
+  }, 300);
+
   useEffect(() => {
     if (error) {
       toast.error('Sorry, something went wrong. Please try again.');
@@ -68,9 +78,10 @@ export default function Filters({
         placeholder="Filter by repository names"
         initialValue={repositoryName}
         size="sm"
-        onEnter={(value) => handleFilterUpdate('repositoryName', value)}
+        onUpdate={(value) => handleFilterUpdate('repositoryName', value)}
+        onChange={debouncedRepositoryNameFilterUpdate}
       />
-      <Select value={language} disabled={loading} onValueChange={handleLanguageUpdate}>
+      <Select value={selectedLanguage} disabled={loading} onValueChange={handleLanguageUpdate}>
         <SelectTrigger className="w-[10rem]">
           <SelectValue placeholder="Language" />
         </SelectTrigger>

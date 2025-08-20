@@ -36,6 +36,9 @@ export default function SearchPage() {
     RepositoryFragment,
     repositoriesQueryResult as FragmentType<typeof RepositoryFragment>[],
   );
+  const filteredRepositories = repositories?.filter((repository) =>
+    repository.name.includes(repositoryName),
+  );
   const totalCount = data?.search.repositoryCount ?? 0;
 
   /**
@@ -68,10 +71,10 @@ export default function SearchPage() {
             initialValue={username}
             size="sm"
             isLoading={loading}
-            onEnter={(value) => handleNewSearch('username', value)}
+            onUpdate={(value) => handleNewSearch('username', value)}
           />
           <span className="text-sm text-muted-foreground">
-            {repositories?.length ?? 0} of {totalCount} results
+            {filteredRepositories?.length ?? 0} of {totalCount} results
           </span>
         </div>
         <Filters
@@ -81,7 +84,7 @@ export default function SearchPage() {
           handleFilterUpdate={handleNewSearch}
         />
       </div>
-      <SearchResults repositories={repositories} isLoading={loading} />
+      <SearchResults repositories={filteredRepositories} isLoading={loading} />
     </div>
   );
 }

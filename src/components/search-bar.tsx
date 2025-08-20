@@ -13,15 +13,22 @@ type SearchBarProps = {
   size?: 'sm' | 'lg';
   placeholder?: string;
   isLoading?: boolean;
-  onEnter: (value: string) => void;
+  onUpdate: (value: string) => void;
+  onChange?: (value: string) => void;
 };
 
+/**
+ * Two important event props:
+ * @param onUpdate - Callback triggered when the user presses Enter or clears the input.
+ * @param onChange - Callback triggered on every input value change.
+ */
 export default function SearchBar({
   initialValue,
   size,
   placeholder = 'Search',
   isLoading = false,
-  onEnter,
+  onUpdate,
+  onChange,
 }: SearchBarProps) {
   const [inputValue, setInputValue] = useState(initialValue ?? '');
   const inputRef = useRef<HTMLInputElement>(null);
@@ -29,8 +36,20 @@ export default function SearchBar({
   const onKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       const trimmedInputValue = inputValue.trim();
-      onEnter(trimmedInputValue);
+      onUpdate(trimmedInputValue);
     }
+  };
+
+  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
+    if (onChange) {
+      onChange(e.target.value);
+    }
+  };
+
+  const onClear = () => {
+    setInputValue('');
+    onUpdate('');
   };
 
   useKeyboardShortcut({
@@ -61,7 +80,7 @@ export default function SearchBar({
       <Input
         ref={inputRef}
         value={inputValue}
-        onChange={(e) => setInputValue(e.target.value)}
+        onChange={handleOnChange}
         onKeyDown={onKeyDown}
         placeholder={placeholder}
         className={`pl-10 pr-10 ${size === 'lg' ? 'h-12 text-base' : ''}`}
@@ -72,7 +91,7 @@ export default function SearchBar({
         <Button
           variant="ghost"
           size="icon"
-          onClick={() => setInputValue('')}
+          onClick={onClear}
           className={`absolute right-1  top-1/2 -translate-y-1/2 cursor-pointer ${
             size === 'lg' ? 'h-10 w-10' : 'h-7 w-7'
           }`}
