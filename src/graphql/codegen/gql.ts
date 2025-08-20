@@ -20,7 +20,7 @@ type Documents = {
   '\n  fragment OwnerItem on RepositoryOwner {\n    __typename\n    avatarUrl\n    login\n    url\n    ... on Organization {\n      ...OrganizationItem\n    }\n    ... on User {\n      ...UserItem\n    }\n  }\n': typeof types.OwnerItemFragmentDoc;
   '\n  fragment RepositoryItem on Repository {\n    createdAt\n    description\n    forkCount\n    id\n    licenseInfo {\n      ...LicenseItem\n    }\n    name\n    owner {\n      ...OwnerItem\n    }\n    primaryLanguage {\n      ...LanguageItem\n    }\n    stargazerCount\n    updatedAt\n    url\n  }\n': typeof types.RepositoryItemFragmentDoc;
   '\n  fragment UserItem on User {\n    __typename\n    avatarUrl\n    bio\n    company\n    userEmail: email\n    location\n    login\n    name\n    url\n  }\n': typeof types.UserItemFragmentDoc;
-  '\n  query allLanguagesByOwnerQuery($owner: String!, $cursor: String) {\n    repositoryOwner(login: $owner) {\n      repositories(first: 100, after: $cursor) {\n        pageInfo {\n          hasNextPage\n          endCursor\n        }\n        nodes {\n          primaryLanguage {\n            name\n          }\n        }\n      }\n    }\n  }\n': typeof types.AllLanguagesByOwnerQueryDocument;
+  '\n  query allLanguagesByOwnerQuery($owner: String!, $cursor: String) {\n    repositoryOwner(login: $owner) {\n      repositories(first: 100, after: $cursor) {\n        pageInfo {\n          hasNextPage\n          endCursor\n        }\n        nodes {\n          primaryLanguage {\n            ...LanguageItem\n          }\n        }\n      }\n    }\n  }\n': typeof types.AllLanguagesByOwnerQueryDocument;
   '\n  query allRepositoriesSearchQuery($query: String!, $numberRepositories: Int!) {\n    search(query: $query, type: REPOSITORY, first: $numberRepositories) {\n      repositoryCount\n      edges {\n        node {\n          ... on Repository {\n            ...RepositoryItem\n          }\n        }\n      }\n      pageInfo {\n        hasNextPage\n        endCursor\n      }\n    }\n  }\n': typeof types.AllRepositoriesSearchQueryDocument;
   '\n  query repositoriesByIdsQuery($ids: [ID!]!) {\n    nodes(ids: $ids) {\n      ... on Repository {\n        ...RepositoryItem\n      }\n    }\n  }\n': typeof types.RepositoriesByIdsQueryDocument;
 };
@@ -37,7 +37,7 @@ const documents: Documents = {
     types.RepositoryItemFragmentDoc,
   '\n  fragment UserItem on User {\n    __typename\n    avatarUrl\n    bio\n    company\n    userEmail: email\n    location\n    login\n    name\n    url\n  }\n':
     types.UserItemFragmentDoc,
-  '\n  query allLanguagesByOwnerQuery($owner: String!, $cursor: String) {\n    repositoryOwner(login: $owner) {\n      repositories(first: 100, after: $cursor) {\n        pageInfo {\n          hasNextPage\n          endCursor\n        }\n        nodes {\n          primaryLanguage {\n            name\n          }\n        }\n      }\n    }\n  }\n':
+  '\n  query allLanguagesByOwnerQuery($owner: String!, $cursor: String) {\n    repositoryOwner(login: $owner) {\n      repositories(first: 100, after: $cursor) {\n        pageInfo {\n          hasNextPage\n          endCursor\n        }\n        nodes {\n          primaryLanguage {\n            ...LanguageItem\n          }\n        }\n      }\n    }\n  }\n':
     types.AllLanguagesByOwnerQueryDocument,
   '\n  query allRepositoriesSearchQuery($query: String!, $numberRepositories: Int!) {\n    search(query: $query, type: REPOSITORY, first: $numberRepositories) {\n      repositoryCount\n      edges {\n        node {\n          ... on Repository {\n            ...RepositoryItem\n          }\n        }\n      }\n      pageInfo {\n        hasNextPage\n        endCursor\n      }\n    }\n  }\n':
     types.AllRepositoriesSearchQueryDocument,
@@ -99,8 +99,8 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n  query allLanguagesByOwnerQuery($owner: String!, $cursor: String) {\n    repositoryOwner(login: $owner) {\n      repositories(first: 100, after: $cursor) {\n        pageInfo {\n          hasNextPage\n          endCursor\n        }\n        nodes {\n          primaryLanguage {\n            name\n          }\n        }\n      }\n    }\n  }\n',
-): (typeof documents)['\n  query allLanguagesByOwnerQuery($owner: String!, $cursor: String) {\n    repositoryOwner(login: $owner) {\n      repositories(first: 100, after: $cursor) {\n        pageInfo {\n          hasNextPage\n          endCursor\n        }\n        nodes {\n          primaryLanguage {\n            name\n          }\n        }\n      }\n    }\n  }\n'];
+  source: '\n  query allLanguagesByOwnerQuery($owner: String!, $cursor: String) {\n    repositoryOwner(login: $owner) {\n      repositories(first: 100, after: $cursor) {\n        pageInfo {\n          hasNextPage\n          endCursor\n        }\n        nodes {\n          primaryLanguage {\n            ...LanguageItem\n          }\n        }\n      }\n    }\n  }\n',
+): (typeof documents)['\n  query allLanguagesByOwnerQuery($owner: String!, $cursor: String) {\n    repositoryOwner(login: $owner) {\n      repositories(first: 100, after: $cursor) {\n        pageInfo {\n          hasNextPage\n          endCursor\n        }\n        nodes {\n          primaryLanguage {\n            ...LanguageItem\n          }\n        }\n      }\n    }\n  }\n'];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

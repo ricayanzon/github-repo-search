@@ -5,6 +5,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { useFragment } from '@/graphql/codegen';
+import { LanguageFragment } from '@/graphql/fragments/language';
 import { allLanguagesByOwnerQueryDocument } from '@/graphql/queries/all-languages-by-owner';
 import { useQuery } from '@apollo/client';
 import { useEffect } from 'react';
@@ -31,13 +33,27 @@ export default function Filters({
     skip: username.trim() === '',
   });
 
-  const selectableLanguages = [
-    ...new Set(
-      data?.repositoryOwner?.repositories.nodes
-        ?.map((node) => node?.primaryLanguage?.name)
-        .filter((name) => name !== undefined) ?? [],
-    ),
-  ].sort();
+  /**
+   * Extract primary languages from repositories.
+   * Then remove null/undefined, deduplicate, and sort alphabetically
+   */
+  const primaryLanguagesRaw =
+    data?.repositoryOwner?.repositories?.nodes
+      ?.map((node) => node?.primaryLanguage)
+      .filter((node) => node !== undefined && node !== null) ?? [];
+  const primaryLanguages = useFragment(LanguageFragment, primaryLanguagesRaw);
+  const sortedUniquePrimaryLanguages = [...new Set(primaryLanguages)].sort((a, b) =>
+    a.name.localeCompare(b.name),
+  );
+
+  /**
+   * Normalizes the language value for search by replacing spaces with dashes, then updates the filter.
+   * This is needed to search appropriately by language name (language ID not working)
+   */
+  const handleLanguageUpdate = (value: string) => {
+    const fixedValue = value.replace(' ', '-');
+    handleFilterUpdate('language', fixedValue);
+  };
 
   useEffect(() => {
     if (error) {
@@ -54,19 +70,15 @@ export default function Filters({
         size="sm"
         onEnter={(value) => handleFilterUpdate('repositoryName', value)}
       />
-      <Select
-        value={language}
-        disabled={loading}
-        onValueChange={(value) => handleFilterUpdate('language', value)}
-      >
+      <Select value={language} disabled={loading} onValueChange={handleLanguageUpdate}>
         <SelectTrigger className="w-[10rem]">
           <SelectValue placeholder="Language" />
         </SelectTrigger>
         <SelectContent>
           <SelectItem value="all">All</SelectItem>
-          {selectableLanguages.map((selectableLanguage) => (
-            <SelectItem key={selectableLanguage} value={selectableLanguage}>
-              {selectableLanguage}
+          {sortedUniquePrimaryLanguages.map((primaryLanguage) => (
+            <SelectItem key={primaryLanguage.id} value={primaryLanguage.name}>
+              {primaryLanguage.name}
             </SelectItem>
           ))}
         </SelectContent>

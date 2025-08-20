@@ -5,12 +5,22 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+/**
+ * Formats a number into a readable string (e.g., 1.2k, 3.4M).
+ * @param {number} num - The number to format.
+ * @return {string} The formatted string.
+ */
 export function formatNumber(num: number): string {
   if (num >= 1000000) return `${(num / 1000000).toFixed(1)}M`;
   if (num >= 1000) return `${(num / 1000).toFixed(1)}k`;
   return num.toString();
 }
 
+/**
+ * Formats a date string into a relative time (e.g., Today, 2 days ago).
+ * @param {string} date - The date string to format.
+ * @return {string} The relative time string.
+ */
 export function formatDateRelative(date: string): string {
   const now = new Date();
   const then = new Date(date);

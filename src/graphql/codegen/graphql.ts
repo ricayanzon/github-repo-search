@@ -32395,7 +32395,11 @@ export type AllLanguagesByOwnerQueryQuery = {
           pageInfo: { __typename?: 'PageInfo'; hasNextPage: boolean; endCursor?: string | null };
           nodes?: Array<{
             __typename?: 'Repository';
-            primaryLanguage?: { __typename?: 'Language'; name: string } | null;
+            primaryLanguage?:
+              | ({ __typename?: 'Language' } & {
+                  ' $fragmentRefs'?: { LanguageItemFragment: LanguageItemFragment };
+                })
+              | null;
           } | null> | null;
         };
       }
@@ -32406,7 +32410,11 @@ export type AllLanguagesByOwnerQueryQuery = {
           pageInfo: { __typename?: 'PageInfo'; hasNextPage: boolean; endCursor?: string | null };
           nodes?: Array<{
             __typename?: 'Repository';
-            primaryLanguage?: { __typename?: 'Language'; name: string } | null;
+            primaryLanguage?:
+              | ({ __typename?: 'Language' } & {
+                  ' $fragmentRefs'?: { LanguageItemFragment: LanguageItemFragment };
+                })
+              | null;
           } | null> | null;
         };
       }
@@ -33118,7 +33126,10 @@ export const AllLanguagesByOwnerQueryDocument = {
                               selectionSet: {
                                 kind: 'SelectionSet',
                                 selections: [
-                                  { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                                  {
+                                    kind: 'FragmentSpread',
+                                    name: { kind: 'Name', value: 'LanguageItem' },
+                                  },
                                 ],
                               },
                             },
@@ -33131,6 +33142,19 @@ export const AllLanguagesByOwnerQueryDocument = {
               ],
             },
           },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'LanguageItem' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Language' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'color' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
         ],
       },
     },

@@ -28,6 +28,9 @@ export default function Favorites() {
     repositoriesQueryResult as FragmentType<typeof RepositoryFragment>[],
   );
 
+  /**
+   * Sets up listeners to update favorites when localStorage changes.
+   */
   useEffect(() => {
     const updateFavorites = () => {
       const favoriteIds = getFavoriteIds();

@@ -26,6 +26,9 @@ export default function SearchPage() {
     skip: username.trim() === '',
   });
 
+  /**
+   * Extract repositories from query result and remove null/undefined
+   */
   const repositoriesQueryResult = data?.search.edges
     ?.map((edge) => edge?.node)
     .filter((node) => node !== null && node !== undefined && node.__typename === 'Repository');
@@ -35,6 +38,11 @@ export default function SearchPage() {
   );
   const totalCount = data?.search.repositoryCount ?? 0;
 
+  /**
+   * Updates the search params in the URL and triggers a new search.
+   * @param {string} key - The search parameter key to update.
+   * @param {string} value - The new value for the search parameter.
+   */
   const handleNewSearch = async (key: string, value: string) => {
     const params = new URLSearchParams(window.location.search);
     if (value.trim() === '') {

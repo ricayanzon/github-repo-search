@@ -10,7 +10,7 @@ export const allLanguagesByOwnerQueryDocument = graphql(`
         }
         nodes {
           primaryLanguage {
-            name
+            ...LanguageItem
           }
         }
       }

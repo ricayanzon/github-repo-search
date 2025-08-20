@@ -6,6 +6,13 @@ type KeyboardShortcut = {
   callback: () => void;
 };
 
+/**
+ * React hook for binding a keyboard shortcut to a callback.
+ * @param {Object} params - Shortcut config.
+ * @param {string} params.key - Key to listen for.
+ * @param {boolean=} params.withCtrlKey - Whether Ctrl must be held.
+ * @param {function} params.callback - Callback to invoke on shortcut.
+ */
 export function useKeyboardShortcut({ key, withCtrlKey, callback }: KeyboardShortcut) {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
