@@ -7,7 +7,7 @@ import { LanguageFragment } from '@/graphql/fragments/language';
 import { LicenseFragment } from '@/graphql/fragments/license';
 import { addFavoriteId, isFavoriteById, removeFavoriteId } from '@/lib/local-storage';
 import { formatDateRelative, formatNumber } from '@/lib/utils';
-import { Calendar, Clock, GitFork, Heart, Star, Users } from 'lucide-react';
+import { Calendar, Clock, GitFork, Heart, Star } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 type SearchResultItemProps = {
@@ -81,12 +81,6 @@ export default function SearchResultItem({ repository }: SearchResultItemProps) 
             <GitFork className="w-3 h-3" />
             <span>{formatNumber(repository.forkCount)}</span>
           </div>
-          {repository.collaborators && (
-            <div className="flex items-center gap-1">
-              <Users className="w-3 h-3" />
-              <span>{repository.collaborators.totalCount}</span>
-            </div>
-          )}
         </div>
 
         <div className="flex items-center justify-between text-xs text-muted-foreground">

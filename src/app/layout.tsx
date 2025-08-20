@@ -27,7 +27,7 @@ export default function RootLayout({
     <ApolloProvider client={client}>
       <html lang="en">
         <body className={`${roboto.variable} antialiased`}>
-          <NextThemesProvider attribute="class" defaultTheme="dark" enableSystem>
+          <NextThemesProvider attribute="class" defaultTheme="system" enableSystem>
             {showHeader && <Header />}
             <main>{children}</main>
             <Toaster />

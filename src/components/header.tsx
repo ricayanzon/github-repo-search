@@ -20,10 +20,6 @@ export default function Header() {
       route: '/favorites',
       name: 'Favorites',
     },
-    {
-      route: '/about',
-      name: 'About',
-    },
   ];
 
   return (

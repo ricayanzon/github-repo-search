@@ -10,7 +10,7 @@ import { useQuery } from '@apollo/client/react/hooks/useQuery';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
-export default function FavoritesPage() {
+export default function Favorites() {
   const initialFavoriteIds = getFavoriteIds();
   const [favoriteIds, setFavoriteIds] = useState<string[]>(initialFavoriteIds);
 

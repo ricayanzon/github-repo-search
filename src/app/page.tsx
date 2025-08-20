@@ -15,9 +15,7 @@ export default function Home() {
     <div className="min-h-screen bg-gradient-to-b from-background to-slate-50 dark:to-slate-900/50">
       <div className="container flex flex-col items-center justify-center gap-8 text-center pb-10 min-h-screen min-w-screen">
         <div className="flex flex-col gap-2">
-          <h1 className="text-2xl md:text-3xl font-medium text-muted-foreground">
-            Search GitHub Repositories
-          </h1>
+          <h1 className="text-2xl md:text-3xl font-medium">Search GitHub Repositories</h1>
           <p className="text-sm md:text-base text-muted-foreground/80">
             Find and explore repositories by owner
           </p>

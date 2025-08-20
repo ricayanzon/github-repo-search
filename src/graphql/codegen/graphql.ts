@@ -32349,14 +32349,6 @@ export type RepositoryItemFragment = {
   stargazerCount: number;
   updatedAt: any;
   url: any;
-  collaborators?: {
-    __typename?: 'RepositoryCollaboratorConnection';
-    totalCount: number;
-    nodes?: Array<
-      | ({ __typename?: 'User' } & { ' $fragmentRefs'?: { UserItemFragment: UserItemFragment } })
-      | null
-    > | null;
-  } | null;
   licenseInfo?:
     | ({ __typename?: 'License' } & {
         ' $fragmentRefs'?: { LicenseItemFragment: LicenseItemFragment };
@@ -32712,34 +32704,6 @@ export type RepositoriesByIdsQueryQuery = {
   >;
 };
 
-export const UserItemFragmentDoc = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'UserItem' },
-      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'User' } },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'avatarUrl' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'bio' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'company' } },
-          {
-            kind: 'Field',
-            alias: { kind: 'Name', value: 'userEmail' },
-            name: { kind: 'Name', value: 'email' },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'location' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'login' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'url' } },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<UserItemFragment, unknown>;
 export const LicenseItemFragmentDoc = {
   kind: 'Document',
   definitions: [
@@ -32788,6 +32752,34 @@ export const OrganizationItemFragmentDoc = {
     },
   ],
 } as unknown as DocumentNode<OrganizationItemFragment, unknown>;
+export const UserItemFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'UserItem' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'User' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'avatarUrl' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'bio' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'company' } },
+          {
+            kind: 'Field',
+            alias: { kind: 'Name', value: 'userEmail' },
+            name: { kind: 'Name', value: 'email' },
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'location' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'login' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'url' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<UserItemFragment, unknown>;
 export const OwnerItemFragmentDoc = {
   kind: 'Document',
   definitions: [
@@ -32900,26 +32892,6 @@ export const RepositoryItemFragmentDoc = {
       selectionSet: {
         kind: 'SelectionSet',
         selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'collaborators' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'nodes' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'FragmentSpread', name: { kind: 'Name', value: 'UserItem' } },
-                    ],
-                  },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'totalCount' } },
-              ],
-            },
-          },
           { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
           { kind: 'Field', name: { kind: 'Name', value: 'description' } },
           { kind: 'Field', name: { kind: 'Name', value: 'forkCount' } },
@@ -33269,29 +33241,6 @@ export const AllRepositoriesSearchQueryDocument = {
     },
     {
       kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'UserItem' },
-      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'User' } },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'avatarUrl' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'bio' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'company' } },
-          {
-            kind: 'Field',
-            alias: { kind: 'Name', value: 'userEmail' },
-            name: { kind: 'Name', value: 'email' },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'location' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'login' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'url' } },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
       name: { kind: 'Name', value: 'LicenseItem' },
       typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'License' } },
       selectionSet: {
@@ -33325,6 +33274,29 @@ export const AllRepositoriesSearchQueryDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'name' } },
           { kind: 'Field', name: { kind: 'Name', value: 'url' } },
           { kind: 'Field', name: { kind: 'Name', value: 'websiteUrl' } },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'UserItem' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'User' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'avatarUrl' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'bio' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'company' } },
+          {
+            kind: 'Field',
+            alias: { kind: 'Name', value: 'userEmail' },
+            name: { kind: 'Name', value: 'email' },
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'location' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'login' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'url' } },
         ],
       },
     },
@@ -33380,26 +33352,6 @@ export const AllRepositoriesSearchQueryDocument = {
       selectionSet: {
         kind: 'SelectionSet',
         selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'collaborators' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'nodes' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'FragmentSpread', name: { kind: 'Name', value: 'UserItem' } },
-                    ],
-                  },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'totalCount' } },
-              ],
-            },
-          },
           { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
           { kind: 'Field', name: { kind: 'Name', value: 'description' } },
           { kind: 'Field', name: { kind: 'Name', value: 'forkCount' } },
@@ -33501,29 +33453,6 @@ export const RepositoriesByIdsQueryDocument = {
     },
     {
       kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'UserItem' },
-      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'User' } },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'avatarUrl' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'bio' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'company' } },
-          {
-            kind: 'Field',
-            alias: { kind: 'Name', value: 'userEmail' },
-            name: { kind: 'Name', value: 'email' },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'location' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'login' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'url' } },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
       name: { kind: 'Name', value: 'LicenseItem' },
       typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'License' } },
       selectionSet: {
@@ -33557,6 +33486,29 @@ export const RepositoriesByIdsQueryDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'name' } },
           { kind: 'Field', name: { kind: 'Name', value: 'url' } },
           { kind: 'Field', name: { kind: 'Name', value: 'websiteUrl' } },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'UserItem' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'User' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'avatarUrl' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'bio' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'company' } },
+          {
+            kind: 'Field',
+            alias: { kind: 'Name', value: 'userEmail' },
+            name: { kind: 'Name', value: 'email' },
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'location' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'login' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'url' } },
         ],
       },
     },
@@ -33612,26 +33564,6 @@ export const RepositoriesByIdsQueryDocument = {
       selectionSet: {
         kind: 'SelectionSet',
         selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'collaborators' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'nodes' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'FragmentSpread', name: { kind: 'Name', value: 'UserItem' } },
-                    ],
-                  },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'totalCount' } },
-              ],
-            },
-          },
           { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
           { kind: 'Field', name: { kind: 'Name', value: 'description' } },
           { kind: 'Field', name: { kind: 'Name', value: 'forkCount' } },
