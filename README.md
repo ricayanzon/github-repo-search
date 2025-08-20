@@ -50,3 +50,4 @@ The `main` branch is then automatically deployed to Vercel.
 - Allow filtering in the favorites section
 - Add an About page to display my GitHub profile
 - Fetch more information about the repositories, e.g. the README content, and add a toggle to display those
+- Small UI improvements: Reset filters on new search, show loading component (spinner) when loading more repositories, language filter does not recognize selected value sometimes, ...
