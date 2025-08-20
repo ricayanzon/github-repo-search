@@ -2,9 +2,11 @@
 
 import SearchResultItem from '@/components/search-result-item';
 import SearchResultSkeleton from '@/components/search-result-skeleton';
-import { useRepositoriesByIdsQuery } from '@/graphql/codegen/hooks';
-import { Repository } from '@/graphql/codegen/schema';
+import { FragmentType, useFragment } from '@/graphql/codegen';
+import { RepositoryFragment } from '@/graphql/fragments/repository';
+import { repositoriesByIdsQueryDocument } from '@/graphql/queries/repositories-by-ids';
 import { getFavoriteIds } from '@/lib/local-storage';
+import { useQuery } from '@apollo/client/react/hooks/useQuery';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
@@ -12,14 +14,19 @@ export default function FavoritesPage() {
   const initialFavoriteIds = getFavoriteIds();
   const [favoriteIds, setFavoriteIds] = useState<string[]>(initialFavoriteIds);
 
-  const { data, loading, error } = useRepositoriesByIdsQuery({
+  const { data, loading, error } = useQuery(repositoriesByIdsQueryDocument, {
     variables: { ids: favoriteIds },
     skip: favoriteIds.length === 0,
   });
 
-  const repositories = (data?.nodes?.filter(
-    (node) => node !== null && node !== undefined && node.__typename === 'Repository',
-  ) ?? []) as Repository[];
+  const repositoriesQueryResult =
+    data?.nodes?.filter(
+      (node) => node !== null && node !== undefined && node.__typename === 'Repository',
+    ) ?? [];
+  const repositories = useFragment(
+    RepositoryFragment,
+    repositoriesQueryResult as FragmentType<typeof RepositoryFragment>[],
+  );
 
   useEffect(() => {
     const updateFavorites = () => {

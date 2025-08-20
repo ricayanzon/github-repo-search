@@ -1,16 +1,16 @@
-import { gql } from '@apollo/client';
+import { graphql } from '../codegen';
 
-export const OWNER_FRAGMENT = gql`
-  fragment OwnerFragment on RepositoryOwner {
+export const OwnerFragment = graphql(`
+  fragment OwnerItem on RepositoryOwner {
     __typename
     avatarUrl
     login
     url
     ... on Organization {
-      ...OrganizationFragment
+      ...OrganizationItem
     }
     ... on User {
-      ...UserFragment
+      ...UserItem
     }
   }
-`;
+`);

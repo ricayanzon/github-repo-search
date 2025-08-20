@@ -1,9 +1,9 @@
-import { gql } from '@apollo/client';
+import { graphql } from '../codegen';
 
-export const LANGUAGE_FRAGMENT = gql`
-  fragment LanguageFragment on Language {
+export const LanguageFragment = graphql(`
+  fragment LanguageItem on Language {
     color
     id
     name
   }
-`;
+`);

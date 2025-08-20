@@ -1,18 +1,29 @@
-import { gql } from '@apollo/client';
+import { graphql } from '../codegen';
 
-export const REPOSITORY_FRAGMENT = gql`
-  fragment RepositoryFragment on Repository {
+export const RepositoryFragment = graphql(`
+  fragment RepositoryItem on Repository {
+    collaborators {
+      nodes {
+        ...UserItem
+      }
+      totalCount
+    }
     createdAt
     description
     forkCount
     id
-    isArchived
-    isFork
-    isPrivate
+    licenseInfo {
+      ...LicenseItem
+    }
     name
+    owner {
+      ...OwnerItem
+    }
+    primaryLanguage {
+      ...LanguageItem
+    }
     stargazerCount
     updatedAt
     url
-    visibility
   }
-`;
+`);

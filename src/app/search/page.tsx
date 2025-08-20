@@ -1,16 +1,12 @@
 'use client';
 
+import Filters from '@/components/filters';
 import SearchBar from '@/components/search-bar';
 import SearchResults from '@/components/search-results';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import { useLanguagesByOwnerQuery, useRepositoriesSearchQuery } from '@/graphql/codegen/hooks';
-import { Repository } from '@/graphql/codegen/schema';
+import { FragmentType, useFragment } from '@/graphql/codegen';
+import { RepositoryFragment } from '@/graphql/fragments/repository';
+import { allRepositoriesSearchQueryDocument } from '@/graphql/queries/all-repositories-search';
+import { useQuery } from '@apollo/client';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
@@ -22,42 +18,22 @@ export default function SearchPageComponent() {
   const language = searchParams.get('language') || '';
   const repositoryName = searchParams.get('repositoryName') || '';
 
-  const {
-    data: searchQueryData,
-    loading: searchQueryLoading,
-    error: searchQueryError,
-  } = useRepositoriesSearchQuery({
+  const { data, loading, error } = useQuery(allRepositoriesSearchQueryDocument, {
     variables: {
-      query: `user:${username} language:${language} ${repositoryName}`,
+      query: `user:${username} language:${language} repo:${username}/${repositoryName}`,
       numberRepositories: 20,
     },
     skip: username.trim() === '',
   });
 
-  const repositories = (searchQueryData?.search.edges
+  const repositoriesQueryResult = data?.search.edges
     ?.map((edge) => edge?.node)
-    .filter((node) => node !== null && node !== undefined && node.__typename === 'Repository') ??
-    []) as Repository[];
-  const totalCount = searchQueryData?.search.repositoryCount ?? 0;
-
-  const {
-    data: languageQueryData,
-    loading: languageQueryLoading,
-    error: languageQueryError,
-  } = useLanguagesByOwnerQuery({
-    variables: {
-      owner: username,
-    },
-    skip: username.trim() === '',
-  });
-
-  const availableLanguages = [
-    ...new Set(
-      languageQueryData?.repositoryOwner?.repositories.nodes
-        ?.map((node) => node?.primaryLanguage?.name)
-        .filter((name) => name !== undefined) ?? [],
-    ),
-  ].sort();
+    .filter((node) => node !== null && node !== undefined && node.__typename === 'Repository');
+  const repositories = useFragment(
+    RepositoryFragment,
+    repositoriesQueryResult as FragmentType<typeof RepositoryFragment>[],
+  );
+  const totalCount = data?.search.repositoryCount ?? 0;
 
   const handleNewSearch = async (key: string, value: string) => {
     const params = new URLSearchParams(window.location.search);
@@ -70,10 +46,10 @@ export default function SearchPageComponent() {
   };
 
   useEffect(() => {
-    if (searchQueryError) {
+    if (error) {
       toast.error('Sorry, something went wrong. Please try again.');
     }
-  }, [searchQueryError, languageQueryError]);
+  }, [error]);
 
   return (
     <div className="bg-background">
@@ -83,41 +59,21 @@ export default function SearchPageComponent() {
             placeholder="Search for a GitHub user"
             initialValue={username}
             size="sm"
-            isLoading={searchQueryLoading}
+            isLoading={loading}
             onEnter={(value) => handleNewSearch('username', value)}
           />
           <span className="text-sm text-muted-foreground">
             {repositories.length} of {totalCount} results
           </span>
         </div>
-        <div className="flex items-center gap-4">
-          <span className="text-md text-muted-foreground">Additional Filters: </span>
-          <SearchBar
-            placeholder="Filter by repository names"
-            initialValue={repositoryName}
-            size="sm"
-            onEnter={(value) => handleNewSearch('repositoryName', value)}
-          />
-          <Select
-            value={language}
-            disabled={languageQueryLoading}
-            onValueChange={(value) => handleNewSearch('language', value)}
-          >
-            <SelectTrigger className="w-[10rem]">
-              <SelectValue placeholder="Language" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All</SelectItem>
-              {availableLanguages.map((availableLanguage) => (
-                <SelectItem key={availableLanguage} value={availableLanguage}>
-                  {availableLanguage}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
+        <Filters
+          username={username}
+          language={language}
+          repositoryName={repositoryName}
+          handleFilterUpdate={handleNewSearch}
+        />
       </div>
-      <SearchResults repositories={repositories} isLoading={searchQueryLoading} />
+      <SearchResults repositories={repositories} isLoading={loading} />
     </div>
   );
 }

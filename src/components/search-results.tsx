@@ -1,9 +1,9 @@
 import SearchResultItem from '@/components/search-result-item';
-import { Repository } from '@/graphql/codegen/hooks';
+import { RepositoryItemFragment } from '@/graphql/codegen/graphql';
 import SearchResultSkeleton from './search-result-skeleton';
 
 type SearchResultsProps = {
-  repositories: Repository[];
+  repositories: RepositoryItemFragment[];
   isLoading: boolean;
 };
 

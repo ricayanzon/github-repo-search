@@ -1,7 +1,7 @@
-import { gql } from '@apollo/client';
+import { graphql } from '../codegen';
 
-export const LANGUAGES_BY_OWNER = gql`
-  query LanguagesByOwner($owner: String!, $cursor: String) {
+export const allLanguagesByOwnerQueryDocument = graphql(`
+  query allLanguagesByOwnerQuery($owner: String!, $cursor: String) {
     repositoryOwner(login: $owner) {
       repositories(first: 100, after: $cursor) {
         pageInfo {
@@ -16,4 +16,4 @@ export const LANGUAGES_BY_OWNER = gql`
       }
     }
   }
-`;
+`);

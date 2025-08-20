@@ -1,9 +1,10 @@
-import { gql } from '@apollo/client';
+import { graphql } from '../codegen';
 
-export const LICENSE_FRAGMENT = gql`
-  fragment LicenseFragment on License {
+export const LicenseFragment = graphql(`
+  fragment LicenseItem on License {
     key
     name
+    spdxId
     url
   }
-`;
+`);

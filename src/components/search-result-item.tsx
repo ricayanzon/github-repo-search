@@ -1,18 +1,24 @@
 'use client';
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Repository } from '@/graphql/codegen/schema';
+import { useFragment } from '@/graphql/codegen';
+import { RepositoryItemFragment } from '@/graphql/codegen/graphql';
+import { LanguageFragment } from '@/graphql/fragments/language';
+import { LicenseFragment } from '@/graphql/fragments/license';
 import { addFavoriteId, isFavoriteById, removeFavoriteId } from '@/lib/local-storage';
 import { formatDateRelative, formatNumber } from '@/lib/utils';
-import { Calendar, Clock, FileText, GitFork, Heart, Star, Users } from 'lucide-react';
+import { Calendar, Clock, GitFork, Heart, Star, Users } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 type SearchResultItemProps = {
-  repository: Repository;
+  repository: RepositoryItemFragment;
 };
 
 export default function SearchResultItem({ repository }: SearchResultItemProps) {
   const [isFavorite, setIsFavorite] = useState(false);
+
+  const primaryLanguage = useFragment(LanguageFragment, repository.primaryLanguage);
+  const licenseInfo = useFragment(LicenseFragment, repository.licenseInfo);
 
   const openRepositoryUrl = () => {
     window.open(repository.url, '_blank', 'noopener,noreferrer');
@@ -58,13 +64,13 @@ export default function SearchResultItem({ repository }: SearchResultItemProps) 
 
       <CardContent className="space-y-4">
         <div className="flex items-center gap-4 text-sm text-muted-foreground">
-          {repository.primaryLanguage && (
+          {primaryLanguage && (
             <div className="flex items-center gap-1">
               <span
                 className="w-3 h-3 rounded-full"
-                style={{ backgroundColor: repository.primaryLanguage.color ?? '#000000' }}
+                style={{ backgroundColor: primaryLanguage.color ?? '#000000' }}
               />
-              <span>{repository.primaryLanguage.name}</span>
+              <span>{primaryLanguage.name}</span>
             </div>
           )}
           <div className="flex items-center gap-1">
@@ -89,25 +95,18 @@ export default function SearchResultItem({ repository }: SearchResultItemProps) 
               <Calendar className="w-3 h-3" />
               <span>Created {formatDateRelative(repository.createdAt)}</span>
             </div>
-            {repository.pushedAt && (
+            {repository.updatedAt && (
               <div className="flex items-center gap-1">
                 <Clock className="w-3 h-3" />
-                <span>Updated {formatDateRelative(repository.pushedAt)}</span>
+                <span>Updated {formatDateRelative(repository.updatedAt)}</span>
               </div>
             )}
           </div>
-          <div className="flex items-center gap-2">
-            {repository.hasWikiEnabled && (
-              <div>
-                <FileText className="w-3 h-3" />
-              </div>
-            )}
-            {repository.licenseInfo && (
-              <span className="bg-muted text-muted-foreground px-2 py-1 rounded text-xs">
-                {repository.licenseInfo.spdxId ?? repository.licenseInfo.name}
-              </span>
-            )}
-          </div>
+          {licenseInfo && (
+            <span className="bg-muted text-muted-foreground px-2 py-1 rounded text-xs">
+              {licenseInfo.spdxId ?? licenseInfo.name}
+            </span>
+          )}
         </div>
       </CardContent>
     </Card>
